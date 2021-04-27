@@ -1,3 +1,5 @@
+using System;
+
 namespace Library.Common.Commands
 {
     public class CreateActivity : IAuthenticatedCommand

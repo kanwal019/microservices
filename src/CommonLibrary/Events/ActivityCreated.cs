@@ -1,3 +1,5 @@
+using System;
+
 namespace Library.Common.Events
 {
     public class ActivityCreated : IAuthenticatedEvent
