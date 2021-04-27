@@ -1,6 +1,6 @@
 using System;
 
-namespace GatewayApi
+namespace Api.Gateway
 {
     public class WeatherForecast
     {

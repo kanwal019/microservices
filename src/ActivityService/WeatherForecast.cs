@@ -1,6 +1,6 @@
 using System;
 
-namespace ActivityService
+namespace Service.Activity
 {
     public class WeatherForecast
     {

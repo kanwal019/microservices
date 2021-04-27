@@ -1,6 +1,6 @@
 using System;
 
-namespace IdentityService
+namespace Service.Identity
 {
     public class WeatherForecast
     {
