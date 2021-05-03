@@ -31,8 +31,7 @@ namespace Library.Common.Services
 
             var webHostBuilder = WebHost.CreateDefaultBuilder(args)
                 .UseConfiguration(config)
-                .UseStartup<TStartup>()
-                .UseDefaultServiceProvider(options => options.ValidateScopes = false);
+                .UseStartup<TStartup>();
 
             return new HostBuilder(webHostBuilder.Build());
         }

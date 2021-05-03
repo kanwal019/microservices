@@ -6,11 +6,9 @@ using Library.Common.Commands;
 using Library.Common.RabbitMq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Service.Activity.Handlers;
@@ -30,9 +28,9 @@ namespace Service.Activity
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddMvcCore();
             services.AddRabbitMq(Configuration);
-            services.AddScoped<ICommandHandler<CreateActivity>, CreateActivityHandler>();
+            services.AddTransient<ICommandHandler<CreateActivity>, CreateActivityHandler>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ActivityService", Version = "v1" });
@@ -40,7 +38,7 @@ namespace Service.Activity
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -48,14 +46,7 @@ namespace Service.Activity
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ActivityService v1"));
             }
-
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseMvc();
         }
     }
 }
