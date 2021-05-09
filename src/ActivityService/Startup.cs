@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using Service.Activity.Domain.Repositories;
 using Service.Activity.Handlers;
 using Service.Activity.Repositories;
+using Service.Activity.Services;
 
 namespace Service.Activity
 {
@@ -39,6 +40,7 @@ namespace Service.Activity
             services.AddScoped<ICommandHandler<CreateActivity>, CreateActivityHandler>();
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IDatabaseSeeder, ActivitiesMongoSeeder>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ActivityService", Version = "v1" });
@@ -58,6 +60,7 @@ namespace Service.Activity
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+            app.ApplicationServices.GetService<IDatabaseInitializer>().InitializeAsync();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

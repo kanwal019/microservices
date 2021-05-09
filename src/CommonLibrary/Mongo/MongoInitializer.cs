@@ -12,9 +12,13 @@ namespace Library.Common.Mongo
         private bool _initialized;
         private readonly bool _seed;
         private readonly IMongoDatabase _database;
+        private readonly IDatabaseSeeder _databaseSeeder;
 
-        public MongoInitializer(IMongoDatabase database, IOptions<MongoOptions> options)
+        public MongoInitializer(IMongoDatabase database,
+                                IDatabaseSeeder databaseSeeder,
+                                IOptions<MongoOptions> options)
         {
+            _databaseSeeder = databaseSeeder;
             _database = database;
             _seed = options.Value.Seed;
         }
@@ -33,6 +37,8 @@ namespace Library.Common.Mongo
             {
                 return;
             }
+
+            await _databaseSeeder.SeedAsync();
         }
 
         private void RegisterConventions()
@@ -49,5 +55,5 @@ namespace Library.Common.Mongo
                 new CamelCaseElementNameConvention(),
             };
         }
-    }    
+    }
 }
